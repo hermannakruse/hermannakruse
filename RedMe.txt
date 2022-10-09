@@ -1,0 +1,6 @@
+###################################################
+09.10.2022 11:21:36
+
+Dass ist mein erster Commit auf GitHub damit mit Azure arbeiten kann. Da ich bald Prüfung habe.
+So ein ergeitz.
+
