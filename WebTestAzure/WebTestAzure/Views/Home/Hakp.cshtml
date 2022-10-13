@@ -21,11 +21,12 @@
         <img src="../bilder/RahelPho2.jpg" alt="wilde Blume vor einem Gebirgssee">
     </picture>
     <p>
-       @Program.nowD.ToString()
+        @Program.nowD.ToString()
         @{
             List<string> list = new List<string>();
             var gD = System.Environment.GetEnvironmentVariables();
-            foreach (var c_ in gD.Keys)
+            var gDK = gD.Keys.Cast<string>().OrderBy(c=>c);
+            foreach (var c_ in gDK)
             {
                 var c = c_?.ToString();
                 if (!string.IsNullOrEmpty(c))
