@@ -24,12 +24,13 @@
         @{
             List<string> list = new List<string>();
             var gD = System.Environment.GetEnvironmentVariables();
-            foreach (var c in gD.Keys)
+            foreach (var c_ in gD.Keys)
             {
-                if (c != null)
+                var c = c_?.ToString();
+                if (!string.IsNullOrEmpty(c))
                 {
-                    var val = gD[c];
-                    if (val != null)
+                    var val = gD[c]?.ToString();
+                    if (!string.IsNullOrEmpty(val))
                     {
                         var t = $"<strong>{HtmlEncoder.Encode(c.ToString())}</strong> = {HtmlEncoder.Encode(val.ToString())}";
                         Output.Write($"<p>{t}</p>");
