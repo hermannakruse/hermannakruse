@@ -1,4 +1,5 @@
 ﻿@{
+
     ViewData["Title"] = "HakP";
 }
 
@@ -19,5 +20,20 @@
         <!---Fallback--->
         <img src="../bilder/RahelPho2.jpg" alt="wilde Blume vor einem Gebirgssee">
     </picture>
+    <p>
+        @{
+            List<string> list = new List<string>();
+            var gD = System.Environment.GetEnvironmentVariables();
+            foreach (var c in gD.Keys)
+            {
+                var t = $"<strong>{HtmlEncoder.Encode(c.ToString())}</strong> = {HtmlEncoder.Encode(gD[c].ToString())}";
+                Output.Write($"<p>{t}</p>");
+            }
+        
+        }
+        
+
+
+    </p>
 
 </div>
