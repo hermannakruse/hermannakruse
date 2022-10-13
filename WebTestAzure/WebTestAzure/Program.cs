@@ -4,6 +4,7 @@ namespace WebTestAzure
     {
 
         public static bool showSec = false;
+        public static DateTime nowD = DateTime.Now;
 
         public static void Main(string[] args)
         {
