@@ -21,8 +21,22 @@
         <img src="../bilder/RahelPho2.jpg" alt="wilde Blume vor einem Gebirgssee">
     </picture>
     <p>
-        @Program.nowD.ToString()
+
+
         @{
+            string myLocalTime = "W. Europe Standard Time";// TimeZoneInfo.Local.Id;
+            var dT = Program.nowD.ToUniversalTime();
+            TimeZoneInfo myLocalTimeZone = TimeZoneInfo.FindSystemTimeZoneById(myLocalTime);
+            try
+            {
+                Output.Write($"{myLocalTime} : {TimeZoneInfo.ConvertTime(dT, myLocalTimeZone)}.");
+            }
+            catch (TimeZoneNotFoundException)
+            {
+                Output.Write("Unable to find the {0} zone in the registry.",
+                myLocalTime);
+            }           
+
             List<string> list = new List<string>();
             var gD = System.Environment.GetEnvironmentVariables();
             var gDK = gD.Keys.Cast<string>().OrderBy(c=>c);
