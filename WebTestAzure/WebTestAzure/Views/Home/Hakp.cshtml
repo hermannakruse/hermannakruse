@@ -26,12 +26,19 @@
             var gD = System.Environment.GetEnvironmentVariables();
             foreach (var c in gD.Keys)
             {
-                var t = $"<strong>{HtmlEncoder.Encode(c.ToString())}</strong> = {HtmlEncoder.Encode(gD[c].ToString())}";
-                Output.Write($"<p>{t}</p>");
+                if (c != null)
+                {
+                    var val = gD[c];
+                    if (val != null)
+                    {
+                        var t = $"<strong>{HtmlEncoder.Encode(c.ToString())}</strong> = {HtmlEncoder.Encode(val.ToString())}";
+                        Output.Write($"<p>{t}</p>");
+                    }
+                }
             }
-        
+
         }
-        
+
 
 
     </p>
