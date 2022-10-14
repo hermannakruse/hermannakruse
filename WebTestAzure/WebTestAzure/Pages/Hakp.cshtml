@@ -28,7 +28,7 @@
             TimeZoneInfo myLocalTimeZone = TimeZoneInfo.FindSystemTimeZoneById(myLocalTime);
             try
             {
-                Output.Write($"{myLocalTime} : {TimeZoneInfo.ConvertTime(dT, myLocalTimeZone)}.");
+                Output.Write($@"{myLocalTime} : {TimeZoneInfo.ConvertTime(dT, myLocalTimeZone):dd\.MM\.yyyy HH\:mm\:ss}");
             }
             catch (TimeZoneNotFoundException)
             {
