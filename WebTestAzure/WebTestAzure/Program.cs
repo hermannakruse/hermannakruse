@@ -3,8 +3,9 @@
 public class Program
 {
 
-    public static bool showSec = false;
+    public static HashSet<string> showSec = new HashSet<string>();
     public static DateTime nowD = DateTime.Now;
+    public const string _target = "target=\"_blank\"";
 
     public static void Main(string[] args)
     {

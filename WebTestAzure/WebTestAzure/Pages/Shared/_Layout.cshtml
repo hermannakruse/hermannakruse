@@ -26,7 +26,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
                         @{
-                            if (Program.showSec)
+                            if (Program.showSec.Contains(Context.Connection.Id))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Hakp">Hakp</a>

@@ -7,7 +7,8 @@ namespace WebTestAzure.Pages
     {
         public void OnGet()
         {
-            Program.showSec = true;
+            var id = HttpContext.Connection.Id;
+            Program.showSec.Add(id);
         }
     }
 }

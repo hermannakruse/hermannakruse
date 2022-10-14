@@ -5,21 +5,26 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">HAK TestAzure Core6</h1>
+    <h1 class="display-4">HAK TestAzure Razor</h1>
+    <h2>(dotnet new razor)</h2>
     <p>
         Zu finden unter <a href="https://webtestazure20221009184457.azurewebsites.net">webtestazure20221009184457.azurewebsites.net</a>.
     </p>
     <p>
-        Portal <a href="https://portal.azure.com/#home">https://portal.azure.com/#home</a>.
+        Portal <a href="https://portal.azure.com/#home" @{
+                  Output.Write(Program._target);
+                  }>https://portal.azure.com/#home</a>.
     </p>
     <p>
-        <a href="https://github.com/hermannakruse/hermannakruse" title="GitHub hermannakruse" type="text/html">GitHub hermannakruse</a>
+        <a href="https://github.com/hermannakruse/hermannakruse" @{
+           Output.Write(Program._target);
+           } title="GitHub hermannakruse" type="text/html">GitHub hermannakruse</a>
     </p>
     <picture>
         <source media="(min-width: 1200px)" srcset="../bilder/RahelBig.jpg">
         <source media="(min-width: 768px)" srcset="../bilder/RahelPho.jpg">
         <!---Fallback--->
-        <img src="../bilder/RahelPho2.jpg" alt="wilde Blume vor einem Gebirgssee">
+        <img src="../bilder/RahelPho2.jpg" alt="wilde Blume von einem Gebirgssee">
     </picture>
     <p>
         @{
@@ -28,12 +33,24 @@
             TimeZoneInfo myLocalTimeZone = TimeZoneInfo.FindSystemTimeZoneById(myLocalTime);
             try
             {
-                Output.Write($@"{myLocalTime} : {TimeZoneInfo.ConvertTime(dT, myLocalTimeZone):dd\.MM\.yyyy HH\:mm\:ss}");
+                Output.Write($@"<p>{myLocalTime} : {TimeZoneInfo.ConvertTime(dT, myLocalTimeZone):dd\.MM\.yyyy HH\:mm\:ss}</p>");
             }
             catch (TimeZoneNotFoundException)
             {
                 Output.Write("Unable to find the {0} zone in the registry.",
                 myLocalTime);
+            }
+            var id = HttpContext.Connection.Id;
+            foreach (string c in Program.showSec.OrderBy(c => c))
+            {
+                if (id == c)
+                {
+                    Output.Write($"<p><strong>UserID: {c}</strong></p>");
+                }
+                else
+                {
+                    Output.Write($"<p>UserIDs: {c}</p>");
+                }
             }
 
             List<string> list = new List<string>();
