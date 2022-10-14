@@ -1,0 +1,62 @@
+﻿@page
+@model WebTestAzure.Pages.HakpModel
+@{
+    ViewData["Title"] = "HakP";
+}
+
+<div class="text-center">
+    <h1 class="display-4">HAK TestAzure Core6</h1>
+    <p>
+        Zu finden unter <a href="https://webtestazure20221009184457.azurewebsites.net">webtestazure20221009184457.azurewebsites.net</a>.
+    </p>
+    <p>
+        Portal <a href="https://portal.azure.com/#home">https://portal.azure.com/#home</a>.
+    </p>
+    <p>
+        <a href="https://github.com/hermannakruse/hermannakruse" title="GitHub hermannakruse" type="text/html">GitHub hermannakruse</a>
+    </p>
+    <picture>
+        <source media="(min-width: 1200px)" srcset="../bilder/RahelBig.jpg">
+        <source media="(min-width: 768px)" srcset="../bilder/RahelPho.jpg">
+        <!---Fallback--->
+        <img src="../bilder/RahelPho2.jpg" alt="wilde Blume vor einem Gebirgssee">
+    </picture>
+    <p>
+        @{
+            string myLocalTime = "W. Europe Standard Time";// TimeZoneInfo.Local.Id;
+            var dT = Program.nowD.ToUniversalTime();
+            TimeZoneInfo myLocalTimeZone = TimeZoneInfo.FindSystemTimeZoneById(myLocalTime);
+            try
+            {
+                Output.Write($"{myLocalTime} : {TimeZoneInfo.ConvertTime(dT, myLocalTimeZone)}.");
+            }
+            catch (TimeZoneNotFoundException)
+            {
+                Output.Write("Unable to find the {0} zone in the registry.",
+                myLocalTime);
+            }
+
+            List<string> list = new List<string>();
+            var gD = System.Environment.GetEnvironmentVariables();
+            var gDK = gD.Keys.Cast<string>().OrderBy(c => c);
+            foreach (var c_ in gDK)
+            {
+                var c = c_?.ToString();
+                if (!string.IsNullOrEmpty(c))
+                {
+                    var val = gD[c]?.ToString();
+                    if (!string.IsNullOrEmpty(val))
+                    {
+                        var t = $"<strong>{HtmlEncoder.Encode(c.ToString())}</strong> = {HtmlEncoder.Encode(val.ToString())}";
+                        Output.Write($"<p>{t}</p>");
+                    }
+                }
+            }
+
+        }
+
+
+
+    </p>
+
+</div>

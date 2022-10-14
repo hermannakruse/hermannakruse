@@ -25,6 +25,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
+                        @{
+                            if (Program.showSec)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Hakp">Hakp</a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>
