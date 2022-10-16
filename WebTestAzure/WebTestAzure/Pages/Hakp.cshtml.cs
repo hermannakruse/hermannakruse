@@ -7,7 +7,7 @@ namespace WebTestAzure.Pages
     {
         public void OnGet()
         {
-            var id = HttpContext.Connection.Id;
+            var id = $"{HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort}";
             Program.showSec.Add(id);
         }
     }
