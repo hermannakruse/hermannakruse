@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.HttpLogging;
 
 public class Program
 {
@@ -11,10 +12,23 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddHttpLogging(logging =>
+        {
+            logging.LoggingFields = HttpLoggingFields.All;
+            logging.RequestHeaders.Add("sec-ch-ua");
+            logging.ResponseHeaders.Add("MyResponseHeader");
+            logging.MediaTypeOptions.AddText("application/javascript");
+            logging.RequestBodyLogLimit = 1024 * 100;   // 4096;
+            logging.ResponseBodyLogLimit = 1024 * 100;  //4096;
+        });
+
+
         // Add services to the container.
         builder.Services.AddRazorPages();
 
         var app = builder.Build();
+
+        app.UseHttpLogging();
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
