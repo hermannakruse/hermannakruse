@@ -31,7 +31,7 @@
     .beAusgabe {
         margin-top: 1em;
         border: thin solid red;
-        padding:0.5em;
+        padding: 0.5em;
         text-align: center;
         overflow-wrap: break-word;
     }
@@ -48,12 +48,27 @@
 </style>
 <div class="beAusgabe">
     @{
+
+        string cL(string val, int maxL = 140)
+        {
+            if (!string.IsNullOrWhiteSpace(val) && val.Length > maxL)
+            {
+                return HtmlEncoder.Encode(val.Substring(0, maxL - 3)) + " &#x2704;";
+            }
+
+            return HtmlEncoder.Encode(val);
+        }
+
         var sb = new System.Text.StringBuilder();
         string myLocalTime = "W. Europe Standard Time";// TimeZoneInfo.Local.Id;
         var dT = Program.nowD.ToUniversalTime();
         TimeZoneInfo myLocalTimeZone = TimeZoneInfo.FindSystemTimeZoneById(myLocalTime);
+        var hx1 = "<H4>";
+        var hx2 = "</H4>";
+
         try
         {
+            sb.Append($"{hx1}DateTime{hx2}");
             sb.Append($@"<p>{myLocalTime} : {TimeZoneInfo.ConvertTime(dT, myLocalTimeZone):dd\.MM\.yyyy HH\:mm\:ss}</p>");
             //Output.Write($@"<p>{myLocalTime} : {TimeZoneInfo.ConvertTime(dT, myLocalTimeZone):dd\.MM\.yyyy HH\:mm\:ss}</p>");
         }
@@ -62,26 +77,39 @@
             Output.Write("Unable to find the {0} zone in the registry.",
             myLocalTime);
         }
+
         var id = $"{HttpContext.Connection.RemoteIpAddress}:{HttpContext.Connection.RemotePort}";
         var z1 = "<div class=\"beLine\">";
         var z2 = "</div>";
         var s1 = "<span class=\"beBold\">";
         var s2 = "</span>";
+
+        var hE = HtmlEncoder;
+        sb.Append($"{hx1}Request.Headers{hx2}");
+        foreach (var h in HttpContext.Request.Headers) //.Where(k => k.Key == "User-Agent")
+        {
+            sb.Append($"{z1}{s1}{hE.Encode(h.Key)}: {s2} {hE.Encode(h.Value)}{z2}");
+        }
+
+
+        sb.Append($"{hx1}User{hx2}");
+
         foreach (string c in Program.showSec.OrderBy(c => c))
         {
             if (id == c)
             {
-                sb.Append($"{z1}{s1}UserID: {c}{s2}{z2}");
+                sb.Append($"{z1}{s1}ID: {c}{s2}{z2}");
             }
             else
             {
-                sb.Append($"{z1}UserIDs: {c}{z2}");
+                sb.Append($"{z1}IDs: {c}{z2}");
             }
         }
 
         List<string> list = new List<string>();
         var gD = System.Environment.GetEnvironmentVariables();
         var gDK = gD.Keys.Cast<string>().OrderBy(c => c);
+        sb.Append($"{hx1}Environment{hx2}");
         foreach (var c_ in gDK)
         {
             var c = c_?.ToString();
@@ -90,11 +118,12 @@
                 var val = gD[c]?.ToString();
                 if (!string.IsNullOrEmpty(val))
                 {
-                    var t = $"{s1}{HtmlEncoder.Encode(c.ToString())} :{s2} {HtmlEncoder.Encode(val.ToString())}";
+                    var t = $"{s1}{HtmlEncoder.Encode(c)} :{s2} {cL(val)}";
                     sb.AppendLine($"{z1}{t}{z2}");
                 }
             }
         }
+
         Output.WriteLine(sb);
     }
 </div>
